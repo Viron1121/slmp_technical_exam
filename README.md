@@ -1,71 +1,162 @@
 # SLMP Technical Exam
 
-A containerized Laravel API for fetching and managing post data. This project utilizes **Laravel Sail** to manage the Docker environment and includes a custom artisan command to sync data from an external REST API.
+A containerized Laravel API for fetching and managing post data. This project utilizes **Laravel Sail** to manage the Docker environment and includes a custom Artisan command to sync data from an external REST API.
 
+---
 
-#Clone the Repository
-    git clone https://github.com/Viron1121/slmp_technical_exam.git
-    Create .env and copy the format of .env.example
-    cd slmp_technical_exam
+## 📥 Clone the Repository
 
-#Prerequisites
-Install Docker Desktop on your machine.
-Ensure Docker is running.
+```bash
+git clone https://github.com/Viron1121/slmp_technical_exam.git
+cd slmp_technical_exam
+```
 
-#Start the Containers
-    Run your Docker containers:
-    docker-compose up -d
+Create a `.env` file and copy the contents from `.env.example`.
 
-#Set Up Laravel Inside the App Container
-    On project directory slmp_technical_exam
-    docker exec -it laravel_app bash (it will be redirected on container folder var/www/html)
-    
+---
 
-    composer install --ignore-platform-reqs
-    php artisan key:generate
-    php artisan migrate
+## ⚙️ Prerequisites
 
-    #CREATE THE DATABASE FROM DOCKER MYSQL SERVER
-    docker exec -it laravel_db bash
-    docker exec -it laravel_db mysql -u root -p
-    password: 123
-    
-    Ensure your .env database credentials match:
-    DB_CONNECTION=mysql
-    DB_HOST=db
-    DB_PORT=3306
-    DB_DATABASE=slmp_db
-    DB_USERNAME=sail
-    DB_PASSWORD=123
-    
-    CREATE DATABASE IF NOT EXISTS slmp_db;
+* Install **Docker Desktop**
+* Ensure Docker is running
 
-   
-   inside of container var/www/html
-   php artisan migrate 
+---
 
-    #Command to fetch data from restapi
-    php artisan fetch:json-data
+## 🚀 Start the Containers
 
+Run the Docker containers:
 
-POSTMAN
- HTTP type POST
- http://localhost:8000/api/login
- body->raw
- {
+```bash
+docker-compose up -d
+```
+
+---
+
+## 🐳 Set Up Laravel Inside the App Container
+
+Access the Laravel app container:
+
+```bash
+docker exec -it laravel_app bash
+```
+
+You will be redirected to:
+
+```
+/var/www/html
+```
+
+Then run:
+
+```bash
+composer install --ignore-platform-reqs
+php artisan key:generate
+```
+
+---
+
+## 🗄️ Database Setup
+
+### Access MySQL Container
+
+```bash
+docker exec -it laravel_db bash
+docker exec -it laravel_db mysql -u root -p
+```
+
+**Password:**
+
+```
+123
+```
+
+### Create Database
+
+```sql
+CREATE DATABASE IF NOT EXISTS slmp_db;
+```
+
+---
+
+## 🔧 Configure `.env`
+
+Ensure your database credentials match:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=slmp_db
+DB_USERNAME=sail
+DB_PASSWORD=123
+```
+
+---
+
+## 📦 Run Migrations
+
+Inside the app container (`/var/www/html`):
+
+```bash
+php artisan migrate
+```
+
+---
+
+## 🔄 Fetch Data from External API
+
+Run the custom Artisan command:
+
+```bash
+php artisan fetch:json-data
+```
+
+---
+
+## 📬 API Testing (Postman)
+
+### 🔐 Login
+
+* **Method:** POST
+* **URL:** `http://localhost:8000/api/login`
+* **Headers:**
+
+  ```
+  Accept: application/json
+  ```
+* **Body (raw JSON):**
+
+```json
+{
   "email": "Sincere@april.biz",
   "password": "password"
 }
+```
 
-you should get something the token on body make sure the header is accepting application/json so it outputs the json format
+✅ You should receive a **token** in the response.
 
- http type GET
- http://localhost:8000/api/posts
+---
 
- authorization Bearer Token then put the given token upon logging in
+### 📄 Get Posts
 
- it should able to fetch all the data from posts
+* **Method:** GET
+* **URL:** `http://localhost:8000/api/posts`
+* **Headers:**
 
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+Accept: application/json
+```
 
- Contact me at "viron3210@gmail.com" or 09754711573 if you have question regarding in running it on container
- 
+✅ This will return all posts.
+
+---
+
+## 📞 Contact
+
+If you have any questions regarding running the project in a container:
+
+* 📧 Email: [viron3210@gmail.com](mailto:viron3210@gmail.com)
+* 📱 Phone: 09754711573
+
+---
